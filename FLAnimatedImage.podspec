@@ -21,20 +21,18 @@ Pod::Spec.new do |spec|
   spec.source           = { :git => "https://github.com/Flipboard/FLAnimatedImage.git", :tag => "1.0.8" }
   spec.frameworks       = "QuartzCore", "ImageIO", "MobileCoreServices", "CoreGraphics"
   spec.requires_arc     = true
+  spec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage"
 
-  spec.subspec "Core" do |subspec|
-    subspec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/Core/**/*.{h.m}"
+  spec.subspec "Core" do |core|
+    core.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/Core", "FLAnimatedImageDemo/FLAnimatedImage/Core/**/*.{h.m}"
   end
 
-  spec.subspec "GIF" do |subspec|
-    subspec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/GIF/**/*.{h.m}"
+  spec.subspec "GIF" do |gif|
+    gif.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/GIF", "FLAnimatedImageDemo/FLAnimatedImage/GIF/**/*.{h.m}"
   end
 
-  spec.subspec "WebP" do |subspec|
-    subspec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/WebP/**/*.{h.m}"
-    subspec.dependency      "libwebp"
+  spec.subspec "WebP" do |webp|
+    webp.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/WebP", "FLAnimatedImageDemo/FLAnimatedImage/WebP/**/*.{h.m}"
+    webp.dependency 'libwebp'
   end
-
-  spec.default_subspecs   "Core", "GIF"
 end
-
