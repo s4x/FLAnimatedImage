@@ -118,7 +118,7 @@
             CFRelease(frameImageRef);
         } else {
             skippedFrameCount++;
-            FLLogInfo(@"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
+            FLLogInfo(@"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, imageSource);
         }
     }
     NSUInteger frameCount = [delayTimesForIndexesMutable count];
