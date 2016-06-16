@@ -11,5 +11,6 @@
 @interface FLAnimatedImage (GIF)
 
 + (FLAnimatedImage *)animatedImageWithGIFData:(NSData *)data;
+- (instancetype)initWithAnimatedGIFData:(NSData *)data;
 
 @end

@@ -19,13 +19,17 @@
 
 + (FLAnimatedImage *)animatedImageWithGIFData:(NSData *)data
 {
+    return [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
+}
+
+- (instancetype)initWithAnimatedGIFData:(NSData *)data {
     // Early return if no data supplied!
     BOOL hasData = ([data length] > 0);
     if (!hasData) {
         FLLogError(@"No animated GIF data supplied.");
         return nil;
     }
-
+    
     // Note: We could leverage `CGImageSourceCreateWithURL` too to add a second initializer `-initWithAnimatedGIFContentsOfURL:`.
     CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
     // Early return on failure!
@@ -33,7 +37,7 @@
         FLLogError(@"Failed to `CGImageSourceCreateWithData` for animated GIF data %@", data);
         return nil;
     }
-
+    
     // Early return if not GIF!
     CFStringRef imageSourceContainerType = CGImageSourceGetType(imageSource);
     BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
@@ -41,7 +45,7 @@
         FLLogError(@"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data);
         return nil;
     }
-
+    
     // Get `LoopCount`
     // Note: 0 means repeating the animation indefinitely.
     // Image properties example:
@@ -54,7 +58,7 @@
     // }
     NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(imageSource, NULL);
     NSUInteger loopCount = [[[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount] unsignedIntegerValue];
-
+    
     // Iterate through frame images
     size_t imageCount = CGImageSourceGetCount(imageSource);
     CGSize size = CGSizeZero;
@@ -76,7 +80,7 @@
                     // Remember index of poster image so we never purge it; also add it to the cache.
                     posterImageFrameIndex = i;
                 }
-
+                
                 // Get `DelayTime`
                 // Note: It's not in (1/100) of a second like still falsely described in the documentation as per iOS 8 (rdar://19507384) but in seconds stored as `kCFNumberFloat32Type`.
                 // Frame properties example:
@@ -90,10 +94,10 @@
                 //         UnclampedDelayTime = "0.4";
                 //     };
                 // }
-
+                
                 NSDictionary *frameProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(imageSource, i, NULL);
                 NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
-
+                
                 // Try to use the unclamped delay time; fall back to the normal delay time.
                 NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
                 if (!delayTime) {
@@ -122,7 +126,7 @@
         }
     }
     NSUInteger frameCount = [delayTimesForIndexesMutable count];
-
+    
     if (frameCount == 0) {
         FLLogInfo(@"Failed to create any valid frames for GIF with properties %@", imageProperties);
         CFRelease(imageSource);
@@ -133,20 +137,19 @@
     } else {
         // We have multiple frames, rock on!
     }
-
+    
     FLAnimatedGIFDataSource *dataSource = [[FLAnimatedGIFDataSource alloc] initWithImageSource:imageSource];
     CFRelease(imageSource);
     FLAnimatedImageData *gifData = [[FLAnimatedImageData alloc] initWithData:data type:FLAnimatedImageDataTypeGIF];
-
-    return [[FLAnimatedImage alloc] initWithData:gifData
-                                            size:size
-                                       loopCount:loopCount
-                                      frameCount:frameCount
-                               skippedFrameCount:skippedFrameCount
-                            delayTimesForIndexes:delayTimesForIndexesMutable
-                                     posterImage:posterImage
-                                posterImageIndex:posterImageFrameIndex
-                                 frameDataSource:dataSource];
+    return [self initWithData:gifData
+                         size:size
+                    loopCount:loopCount
+                   frameCount:frameCount
+            skippedFrameCount:skippedFrameCount
+         delayTimesForIndexes:delayTimesForIndexesMutable
+                  posterImage:posterImage
+             posterImageIndex:posterImageFrameIndex
+              frameDataSource:dataSource];
 }
 
 @end
