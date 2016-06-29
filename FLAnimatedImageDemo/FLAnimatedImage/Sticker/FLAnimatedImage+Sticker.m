@@ -32,10 +32,8 @@
     int pixelHeight = WebPDemuxGetI(demuxer.demuxer, WEBP_FF_CANVAS_HEIGHT);
     int pixelWidth = WebPDemuxGetI(demuxer.demuxer, WEBP_FF_CANVAS_WIDTH);
     CGSize imageSize = CGSizeMake(pixelWidth, pixelHeight);
-    CGRect imageRect = CGRectMake(0, 0, pixelWidth, pixelHeight);
     int loopCount = WebPDemuxGetI(demuxer.demuxer, WEBP_FF_LOOP_COUNT);
     int frameCount = iterator.num_frames;
-    NSUInteger skippedFrameCount = 0;
     NSMutableDictionary *delayTimesForIndexesMutable = [NSMutableDictionary dictionaryWithCapacity:frameCount];
     NSMutableArray *frameInfosMutable = [NSMutableArray arrayWithCapacity:frameCount];
     
@@ -63,31 +61,32 @@
         frameInfosMutable[i] = frameInfo;
         
         delayTimesForIndexesMutable[@(i)] = FLDelayTimeFloor(@((double)iterator.duration / 1000));
-        
-        if (posterImage == nil && i == posterIndex) {
-            CGImageRef imageRef = FLWebPCreateCGImageWithBytes(iterator.fragment.bytes, iterator.fragment.size, frameRect, imageRect);
-            if (imageRef) {
-                posterImage = [UIImage imageWithCGImage:imageRef];
-                posterImageFrameIndex = i;
-                CGImageRelease(imageRef);
-            } else {
-                skippedFrameCount++;
-            }
-        }
-        
+
         i++;
     } while (WebPDemuxNextFrame(&iterator));
     WebPDemuxReleaseIterator(&iterator);
     
     FLAnimatedWebPDataSource *dataSource = [[FLAnimatedWebPDataSource alloc] initWithWebPDemuxer:demuxer
                                                                                        frameInfo:frameInfosMutable];
-    FLAnimatedImageData *webPData = [[FLAnimatedImageData alloc] initWithData:data type:FLAnimatedImageDataTypeWebP];
     
+    // 가장 가까운 keyFrame index를 찾는다.
+    int nearestKeyFrameIndex = posterIndex;
+    while ([dataSource frameRequiresBlendingWithPreviousFrame:nearestKeyFrameIndex]) {
+        nearestKeyFrameIndex--;
+    }
+    // 가장 가까운 keyFrame 부터 posterIndex까지 subFrame을 섞어 posterImage를 만든다.
+    UIImage *nearestKeyFrameImage = [dataSource imageAtIndex:nearestKeyFrameIndex];
+    for (int i = nearestKeyFrameIndex + 1; i <= posterIndex; i++) {
+        nearestKeyFrameImage = [dataSource blendImage:[dataSource imageAtIndex:i] atIndex:i withPreviousImage:nearestKeyFrameImage];
+    }
+    posterImage = nearestKeyFrameImage;
+    
+    FLAnimatedImageData *webPData = [[FLAnimatedImageData alloc] initWithData:data type:FLAnimatedImageDataTypeWebP];
     return [[FLAnimatedImage alloc] initWithData:webPData
                                             size:imageSize
                                        loopCount:loopCount
                                       frameCount:frameCount
-                               skippedFrameCount:skippedFrameCount
+                               skippedFrameCount:0
                             delayTimesForIndexes:delayTimesForIndexesMutable
                                      posterImage:posterImage
                                 posterImageIndex:posterImageFrameIndex
