@@ -36,7 +36,7 @@ Pod::Spec.new do |spec|
     webp.dependency 'libwebp'
   end
 
-  spec.subspec "WebP" do |sticker|
+  spec.subspec "Sticker" do |sticker|
     sticker.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/Sticker", "FLAnimatedImageDemo/FLAnimatedImage/Sticker/**/*.{h.m}"
     sticker.dependency 'libwebp'
   end
