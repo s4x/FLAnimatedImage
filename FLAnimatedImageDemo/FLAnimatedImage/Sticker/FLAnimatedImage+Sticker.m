@@ -38,7 +38,6 @@
     NSMutableArray *frameInfosMutable = [NSMutableArray arrayWithCapacity:frameCount];
     
     UIImage *posterImage = nil;
-    NSUInteger posterImageFrameIndex = 0;
     
     NSUInteger i = 0;
     do {
@@ -89,7 +88,7 @@
                                skippedFrameCount:0
                             delayTimesForIndexes:delayTimesForIndexesMutable
                                      posterImage:posterImage
-                                posterImageIndex:posterImageFrameIndex
+                                posterImageIndex:posterIndex
                                  frameDataSource:dataSource];
 }
 
