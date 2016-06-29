@@ -20,6 +20,7 @@
 		18644B401B4120340028AF87 /* FLAnimatedWebPFrameInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B3A1B4120340028AF87 /* FLAnimatedWebPFrameInfo.m */; };
 		18644B411B4120340028AF87 /* FLWebPUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B3C1B4120340028AF87 /* FLWebPUtilities.m */; };
 		18A611DA1B34EC5E0009CDC9 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A611D71B34E7C60009CDC9 /* libwebp.a */; };
+		5292A7211D238D8C00B27BCD /* FLAnimatedImage+Sticker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5292A7201D238D8C00B27BCD /* FLAnimatedImage+Sticker.m */; };
 		870D79D51936EBFC009D1BCE /* rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 870D79D41936EBFC009D1BCE /* rock.gif */; };
 		872EBE70178B825500B7531B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE6F178B825500B7531B /* UIKit.framework */; };
 		872EBE72178B825500B7531B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE71178B825500B7531B /* Foundation.framework */; };
@@ -84,6 +85,8 @@
 		18644B3B1B4120340028AF87 /* FLWebPUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLWebPUtilities.h; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLWebPUtilities.h; sourceTree = SOURCE_ROOT; };
 		18644B3C1B4120340028AF87 /* FLWebPUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLWebPUtilities.m; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLWebPUtilities.m; sourceTree = SOURCE_ROOT; };
 		18A611D21B34E7C60009CDC9 /* libwebp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = libwebp.xcodeproj; sourceTree = "<group>"; };
+		5292A71F1D238D8C00B27BCD /* FLAnimatedImage+Sticker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FLAnimatedImage+Sticker.h"; path = "FLAnimatedImageDemo/FLAnimatedImage/Sticker/FLAnimatedImage+Sticker.h"; sourceTree = SOURCE_ROOT; };
+		5292A7201D238D8C00B27BCD /* FLAnimatedImage+Sticker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FLAnimatedImage+Sticker.m"; path = "FLAnimatedImageDemo/FLAnimatedImage/Sticker/FLAnimatedImage+Sticker.m"; sourceTree = SOURCE_ROOT; };
 		870D79D41936EBFC009D1BCE /* rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = rock.gif; path = "FLAnimatedImageDemo/test-gifs/rock.gif"; sourceTree = SOURCE_ROOT; };
 		872EBE6C178B825500B7531B /* FLAnimatedImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnimatedImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872EBE6F178B825500B7531B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -186,6 +189,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5292A71E1D238D6600B27BCD /* Sticker */ = {
+			isa = PBXGroup;
+			children = (
+				5292A71F1D238D8C00B27BCD /* FLAnimatedImage+Sticker.h */,
+				5292A7201D238D8C00B27BCD /* FLAnimatedImage+Sticker.m */,
+			);
+			name = Sticker;
+			sourceTree = "<group>";
+		};
 		872EBE63178B825500B7531B = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +268,7 @@
 		8791BCB2191B2A8000A846A5 /* FLAnimatedImage */ = {
 			isa = PBXGroup;
 			children = (
+				5292A71E1D238D6600B27BCD /* Sticker */,
 				18644B171B4118880028AF87 /* Core */,
 				18644B161B41183A0028AF87 /* GIF */,
 				18644B151B41182A0028AF87 /* WebP */,
@@ -372,6 +385,7 @@
 				87CB5A121935A8C600620C16 /* GraphView.m in Sources */,
 				18644B401B4120340028AF87 /* FLAnimatedWebPFrameInfo.m in Sources */,
 				18644B301B411C970028AF87 /* FLAnimatedGIFDataSource.m in Sources */,
+				5292A7211D238D8C00B27BCD /* FLAnimatedImage+Sticker.m in Sources */,
 				18644B271B411C8E0028AF87 /* FLAnimatedImage.m in Sources */,
 				87CB5A131935A8C600620C16 /* main.m in Sources */,
 				87CB5A111935A8C600620C16 /* FrameCacheView.m in Sources */,
