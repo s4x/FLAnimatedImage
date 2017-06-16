@@ -41,7 +41,7 @@ Pod::Spec.new do |spec|
 
   spec.subspec "Sticker" do |sticker|
     sticker.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/Sticker", "FLAnimatedImageDemo/FLAnimatedImage/Sticker/**/*.{h.m}"
-    webp.xcconfig = { 
+    sticker.xcconfig = { 
       'USER_HEADER_SEARCH_PATHS' => '$(inherited) $(SRCROOT)/libwebp/src'
     }
     sticker.dependency 'libwebp'
