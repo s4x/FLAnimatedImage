@@ -8,7 +8,7 @@
 
 #import "FLAnimatedWebPDataSource.h"
 
-#import <libwebp/decode.h>
+#import "webp/demux.h"
 
 #import "FLAnimatedWebPDemuxer.h"
 #import "FLAnimatedWebPFrameInfo.h"

@@ -7,11 +7,8 @@
 //
 
 #import "FLAnimatedImage+WebP.h"
-
 #import <ImageIO/ImageIO.h>
-
-#import <libwebp/demux.h>
-
+#import "webp/demux.h"
 #import "FLAnimatedImage+Internal.h"
 #import "FLAnimatedGIFDataSource.h"
 #import "FLAnimatedWebPDataSource.h"
